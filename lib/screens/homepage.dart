@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:ecommerceapp/screens/FeedScreen.dart';
-import 'package:ecommerceapp/screens/SecondScreen.dart';
+import 'package:ecommerceapp/screens/CategoryScreen.dart';
 import 'package:ecommerceapp/screens/ProfileScreen.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
   int currentIndex=0;
   List<Widget> screens = const[
     FeedScreen(),
-    SecondScreen(),
+    CategoryScreen(),
     ProfileScreen()
   ];
   @override
@@ -40,8 +40,8 @@ class _HomePageState extends State<HomePage> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home),
           label: "home"),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite),
-              label: "likes"),
+          BottomNavigationBarItem(icon: Icon(Icons.category),
+              label: "Category"),
           BottomNavigationBarItem(icon: Icon(Icons.person),
               label: "Profile")
         ],

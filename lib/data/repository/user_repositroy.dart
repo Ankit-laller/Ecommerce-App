@@ -13,7 +13,7 @@ class UserRepository{
 })async{
     try{
       Response response = await _api.sendRequest.post(
-        "/user/create",
+        "/user/createAccount",
         data: jsonEncode({
           "email":email,
           "password":password,
