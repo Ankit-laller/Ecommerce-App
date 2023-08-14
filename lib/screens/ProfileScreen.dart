@@ -7,6 +7,7 @@ import '../cubit/user_cubit.dart';
 import '../cubit/user_state.dart';
 import '../data/models/user_model.dart';
 import '../widget/linkButton.dart';
+import 'edit-profile-screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -45,48 +46,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
     );
   }
-}
+  Widget userProfile(UserModel userModel) {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
 
-Widget userProfile(UserModel userModel) {
-  return ListView(
-    padding: const EdgeInsets.all(16),
-    children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("${userModel.username}", style: TextStyles.heading3),
+            Text("${userModel.email}", style: TextStyles.body2,),
+            LinkButton(
+              onPressed: () {
+                Navigator.pushNamed(context, EditProfileScreen.routeName);
+              },
+              text: "Edit Profile",
+            ),
+          ],
+        ),
 
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("${userModel.username}", style: TextStyles.heading3),
-          Text("${userModel.email}", style: TextStyles.body2,),
-          LinkButton(
-            onPressed: () {
-              // Navigator.pushNamed(context, EditProfileScreen.routeName);
+        const Divider(),
+
+        ListTile(
+            onTap: () {
+              // Navigator.pushNamed(context, MyOrderScreen.routeName);
             },
-            text: "Edit Profile",
-          ),
-        ],
-      ),
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(CupertinoIcons.cube_box_fill),
+            title: Text("My Orders", style: TextStyles.body1,)
+        ),
 
-      const Divider(),
+        ListTile(
+            onTap: () {
+              BlocProvider.of<UserCubit>(context).signOut();
+            },
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.exit_to_app, color: Colors.red,),
+            title: Text("Sign Out", style: TextStyles.body1.copyWith(color: Colors.red))
+        ),
 
-      ListTile(
-          onTap: () {
-            // Navigator.pushNamed(context, MyOrderScreen.routeName);
-          },
-          contentPadding: EdgeInsets.zero,
-          leading: const Icon(CupertinoIcons.cube_box_fill),
-          title: Text("My Orders", style: TextStyles.body1,)
-      ),
-
-      ListTile(
-          onTap: () {
-            // BlocProvider.of<UserCubit>(context).signOut();
-          },
-          contentPadding: EdgeInsets.zero,
-          leading: const Icon(Icons.exit_to_app, color: Colors.red,),
-          title: Text("Sign Out", style: TextStyles.body1.copyWith(color: Colors.red))
-      ),
-
-    ],
-  );
+      ],
+    );
+  }
 }
+
+
 

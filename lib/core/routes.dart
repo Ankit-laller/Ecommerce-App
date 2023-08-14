@@ -16,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/category-product-page.dart';
+import '../screens/edit-profile-screen.dart';
 class Routes{
   static Route? onGenerateRoute(RouteSettings settings){
     switch(settings.name){
@@ -45,6 +46,8 @@ class Routes{
               child: const CategoryProductPage()
           )
       );
+      case EditProfileScreen.routeName :return CupertinoModalPopupRoute(
+          builder: (context)=> EditProfileScreen());
       default :return null;
     }
 

@@ -1,40 +1,60 @@
 class UserModel {
   String? sId;
+  String? username;
   String? email;
   String? password;
-  String? userProfile;
-  String? username;
+  String? phoneNumber;
+  String? address;
+  String? city;
+  String? state;
+  int? profileProgress;
+  String? id;
+  String? updatedOn;
   String? createdOn;
-  int? iV;
 
   UserModel(
       {this.sId,
+        this.username,
         this.email,
         this.password,
-        this.userProfile,
-        this.username,
-        this.createdOn,
-        this.iV});
+        this.phoneNumber,
+        this.address,
+        this.city,
+        this.state,
+        this.profileProgress,
+        this.id,
+        this.updatedOn,
+        this.createdOn});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
+    username = json['fullName'];
     email = json['email'];
     password = json['password'];
-    userProfile = json['userProfile'];
-    username = json['username'];
+    phoneNumber = json['phoneNumber'];
+    address = json['address'];
+    city = json['city'];
+    state = json['state'];
+    profileProgress = json['profileProgress'];
+    id = json['id'];
+    updatedOn = json['updatedOn'];
     createdOn = json['createdOn'];
-    iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
+    data['fullName'] = this.username;
     data['email'] = this.email;
     data['password'] = this.password;
-    data['userProfile'] = this.userProfile;
-    data['username'] = this.username;
+    data['phoneNumber'] = this.phoneNumber;
+    data['address'] = this.address;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['profileProgress'] = this.profileProgress;
+    data['id'] = this.id;
+    data['updatedOn'] = this.updatedOn;
     data['createdOn'] = this.createdOn;
-    data['__v'] = this.iV;
     return data;
   }
 }
