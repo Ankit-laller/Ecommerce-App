@@ -1,6 +1,9 @@
 
+import 'package:ecommerceapp/data/models/product_model.dart';
+import 'package:ecommerceapp/screens/cart_scrren.dart';
 import 'package:ecommerceapp/screens/homepage.dart';
 import 'package:ecommerceapp/screens/loginPage.dart';
+import 'package:ecommerceapp/screens/product_deail.dart';
 import 'package:ecommerceapp/screens/provider/login_provider.dart';
 import 'package:ecommerceapp/screens/provider/signUp_provider.dart';
 import 'package:ecommerceapp/screens/signUpPage.dart';
@@ -24,6 +27,12 @@ class Routes{
       case SplashScreen.routeName :return CupertinoModalPopupRoute(
           builder: (context)=> SplashScreen());
 
+      case ProductDetailScreen.routeName :return CupertinoModalPopupRoute(
+          builder: (context)=> ProductDetailScreen(
+            productModel: settings.arguments as ProductModel,
+          ));
+      case CartScreen.routeName :return CupertinoModalPopupRoute(
+          builder: (context)=> CartScreen());
       default :return null;
     }
 

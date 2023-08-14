@@ -1,4 +1,5 @@
 
+import 'package:ecommerceapp/screens/cart_scrren.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerceapp/screens/FeedScreen.dart';
 import 'package:ecommerceapp/screens/CategoryScreen.dart';
@@ -23,9 +24,11 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         elevation: 1,
         title: Text("ECommerce App",),
-        actions:const [
-          IconButton(icon: Icon(Icons.notifications, color: Colors.black,),
-            onPressed: null,  ),
+        actions: [
+          IconButton(icon: Icon(Icons.shopping_cart, color: Colors.black,),
+            onPressed: (){
+            Navigator.pushNamed(context, CartScreen.routeName);
+            },  ),
           SizedBox(width: 10,)
         ],
       ),
