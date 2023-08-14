@@ -27,11 +27,16 @@ class  CartCubit extends Cubit<CartState>{
     }
   }
   final _cartrepo = CartRepository();
+  void sortAndLoad(List<CartItemModel> items) {
+    items.sort((a, b) => b.product!.title!.compareTo(a.product!.title!));
+    emit( CartLoadedState(items) );
+  }
 
   void _initialize(String userId)async{
     try{
       emit((CartLoadingState(state.items)));
       final items = await _cartrepo.fetchCartForUser(userId);
+      sortAndLoad(items);
       emit(CartLoadedState(items));
     }catch(err){
       emit(CartErrorState(err.toString(), state.items));
@@ -50,6 +55,7 @@ class  CartCubit extends Cubit<CartState>{
 
         final items = await _cartrepo.addToCart(newItem, userState.userModel.sId!);
           userState.userModel.sId!;
+          sortAndLoad(items);
           emit(CartLoadedState(items));
       }
       else {

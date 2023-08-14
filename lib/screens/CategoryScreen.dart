@@ -4,6 +4,8 @@ import 'package:ecommerceapp/cubit/category/category_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'category-product-page.dart';
+
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
 
@@ -36,7 +38,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
               final category = state.categories[index];
 
               return ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, CategoryProductPage.routeName,
+                     arguments: category);
+                },
                 leading: const Icon(Icons.category),
                 title: Text("${category.title}"),
                 trailing: const Icon(Icons.keyboard_arrow_right),

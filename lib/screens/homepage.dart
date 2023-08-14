@@ -1,9 +1,13 @@
 
+import 'package:ecommerceapp/cubit/cart/cart_cubit.dart';
 import 'package:ecommerceapp/screens/cart_scrren.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerceapp/screens/FeedScreen.dart';
 import 'package:ecommerceapp/screens/CategoryScreen.dart';
 import 'package:ecommerceapp/screens/ProfileScreen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../cubit/cart/cart_state.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   static const String routeName ="Home";
@@ -23,9 +27,20 @@ class _HomePageState extends State<HomePage> {
     return  Scaffold(
       appBar: AppBar(
         elevation: 1,
-        title: Text("ECommerce App",),
+        title: const Text("ECommerce App",),
         actions: [
-          IconButton(icon: Icon(Icons.shopping_cart, color: Colors.black,),
+          IconButton(
+            icon:
+          BlocBuilder<CartCubit, CartState>(
+            builder: (context,state) {
+              return Badge(
+                isLabelVisible: (state is CartLoadingState)? false: true,
+                  child: Icon(Icons.shopping_cart, color: Colors.black,),
+                  label: Text(state.items.length.toString(),
+              ),
+              );
+            }
+          ),
             onPressed: (){
             Navigator.pushNamed(context, CartScreen.routeName);
             },  ),
