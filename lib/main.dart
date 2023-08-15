@@ -10,6 +10,8 @@ import 'package:ecommerceapp/core/ui.dart';
 import 'package:ecommerceapp/cubit/user_cubit.dart';
 import 'package:ecommerceapp/screens/splash_screen.dart';
 
+import 'cubit/order/order-cubit.dart';
+
 
 void main() {
   Bloc.observer = MyBlocObserver();
@@ -28,6 +30,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ProductCubit()),
         BlocProvider(create: (context) => CartCubit(
           BlocProvider.of<UserCubit>(context)
+        )),
+        BlocProvider(create: (context) => OrderCubit(
+          BlocProvider.of<UserCubit>(context),
+          BlocProvider.of<CartCubit>(context),
         )),
       ],
       child: MaterialApp(

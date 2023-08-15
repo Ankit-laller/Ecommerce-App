@@ -11,6 +11,7 @@ import '../core/ui.dart';
 import '../cubit/cart/cart_state.dart';
 import '../service/calculations.dart';
 import '../service/formatter.dart';
+import 'order-scrren.dart';
 
 
 class CartScreen extends StatefulWidget {
@@ -105,7 +106,7 @@ class _CartScreenState extends State<CartScreen> {
                         width: MediaQuery.of(context).size.width / 2.5,
                         child: CupertinoButton(
                           onPressed: () {
-
+                            Navigator.pushNamed(context, OrderScreen.routeName);
                           },
                           padding: EdgeInsets.all(MediaQuery.of(context).size.width / 22),
                           color: AppColors.accent,

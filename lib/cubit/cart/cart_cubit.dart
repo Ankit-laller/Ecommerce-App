@@ -102,4 +102,8 @@ class  CartCubit extends Cubit<CartState>{
     _userSubscription?.cancel();
     return super.close();
   }
+
+  void clearCart() {
+    emit(CartLoadedState([]));
+  }
 }

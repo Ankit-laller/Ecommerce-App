@@ -8,6 +8,7 @@ import '../cubit/user_state.dart';
 import '../data/models/user_model.dart';
 import '../widget/linkButton.dart';
 import 'edit-profile-screen.dart';
+import 'my-orders.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -69,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
         ListTile(
             onTap: () {
-              // Navigator.pushNamed(context, MyOrderScreen.routeName);
+              Navigator.pushNamed(context, MyOrderScreen.routeName);
             },
             contentPadding: EdgeInsets.zero,
             leading: const Icon(CupertinoIcons.cube_box_fill),

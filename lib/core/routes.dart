@@ -6,8 +6,10 @@ import 'package:ecommerceapp/data/models/product_model.dart';
 import 'package:ecommerceapp/screens/cart_scrren.dart';
 import 'package:ecommerceapp/screens/homepage.dart';
 import 'package:ecommerceapp/screens/loginPage.dart';
+import 'package:ecommerceapp/screens/my-orders.dart';
 import 'package:ecommerceapp/screens/product_deail.dart';
 import 'package:ecommerceapp/screens/provider/login_provider.dart';
+import 'package:ecommerceapp/screens/provider/order-provider.dart';
 import 'package:ecommerceapp/screens/provider/signUp_provider.dart';
 import 'package:ecommerceapp/screens/signUpPage.dart';
 import 'package:ecommerceapp/screens/splash_screen.dart';
@@ -17,6 +19,8 @@ import 'package:provider/provider.dart';
 
 import '../screens/category-product-page.dart';
 import '../screens/edit-profile-screen.dart';
+import '../screens/order-placed-scrren.dart';
+import '../screens/order-scrren.dart';
 class Routes{
   static Route? onGenerateRoute(RouteSettings settings){
     switch(settings.name){
@@ -48,6 +52,17 @@ class Routes{
       );
       case EditProfileScreen.routeName :return CupertinoModalPopupRoute(
           builder: (context)=> EditProfileScreen());
+
+      case OrderScreen.routeName :return CupertinoModalPopupRoute(
+          builder: (context)=> ChangeNotifierProvider(
+              create: (context)=> OrderDetailProvider(),
+              child: OrderScreen()));
+
+      case OrderPlacedScreen.routeName :return CupertinoModalPopupRoute(
+          builder: (context)=> OrderPlacedScreen());
+
+      case MyOrderScreen.routeName :return CupertinoModalPopupRoute(
+          builder: (context)=> MyOrderScreen());
       default :return null;
     }
 
