@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(milliseconds: 100), () {
+    Timer(const Duration(milliseconds: 300), () {
       goToNextScreen();
     });
   }
@@ -45,11 +45,62 @@ class _SplashScreenState extends State<SplashScreen> {
       listener: (context, state) {
         goToNextScreen();
       },
-      child: const Scaffold(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
         body: Center(
-            child: CircularProgressIndicator()
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.fromLTRB(51.0, 70.0, 0.0, 0.0),
+                child: Center(
+                  child: Text('Find your Gadget',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 65.0,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.start),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+                  child: ShaderMask(
+                      shaderCallback: (rect) {
+                        return const LinearGradient(
+                          begin: Alignment.center,
+                          end: FractionalOffset.bottomCenter,
+                          colors: [Colors.black, Colors.transparent],
+                        ).createShader(rect);
+                      },
+                      blendMode: BlendMode.dstIn,
+                      child: const Image(
+                          image: AssetImage('assets/images/splash.png'),
+                          fit: BoxFit.contain))),
+              // ElevatedButton(
+              //   style: ElevatedButton.styleFrom(
+              //     primary: Colors.white,
+              //     onPrimary: const Color(0xff5956E9),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(10.0),
+              //     ),
+              //     padding: const EdgeInsets.symmetric(
+              //       horizontal: 80,
+              //       vertical: 22,
+              //     ),
+              //     textStyle: const TextStyle(
+              //       fontSize: 20,
+              //       fontWeight: FontWeight.w700,
+              //     ),
+              //   ),
+              //   onPressed: () {
+              //     Navigator.pushReplacementNamed(context, "auth");
+              //   },
+              //   child: const Text('Get Started'),
+              // )
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 }

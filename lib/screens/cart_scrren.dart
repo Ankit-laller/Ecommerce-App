@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerceapp/cubit/cart/cart_cubit.dart';
+import 'package:ecommerceapp/screens/cart-screen/empty-cart-screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,7 @@ import '../core/ui.dart';
 import '../cubit/cart/cart_state.dart';
 import '../service/calculations.dart';
 import '../service/formatter.dart';
+import '../widget/empty-state.dart';
 import 'order-scrren.dart';
 
 
@@ -27,6 +29,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 1,
         title: Text("Cart"),
       ),
       body: SafeArea(
@@ -43,6 +46,9 @@ class _CartScreenState extends State<CartScreen> {
                 child: Text(state.message.toString()),
               );
             }
+            if(state.items.isEmpty){
+              return const EmptyCartScreen();
+            }
             return Column(
               children: [
                 Expanded(
@@ -50,35 +56,45 @@ class _CartScreenState extends State<CartScreen> {
                     itemCount: state.items.length,
                     itemBuilder: (context, index){
                       final item = state.items[index];
-                      return ListTile(
-                        leading: CachedNetworkImage(
-                          width: 50,
-                          imageUrl: item.product!.images![0],
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+                        child: Card(
+                            shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
                         ),
-                        title: Text("${item.product?.title}"),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("${Formatter.formatPrice(item.product!.price!)} x ${item.quantity} = ${Formatter.formatPrice(item.product!.price! * item.quantity!)}"),
-
-                            TextButton(
-                              onPressed: () {
-                                BlocProvider.of<CartCubit>(context).
-                                removeFromCart(item.product!);
-                              },
-                               child: Text("Delete"),
+                          child: ListTile(
+                            leading: CachedNetworkImage(
+                              width: 50,
+                              imageUrl: item.product!.images![0],
                             ),
-                          ],
-                        ),
-                        trailing: InputQty(
-                          onQtyChanged: (value){
-                            BlocProvider.of<CartCubit>(context).
-                            addToCart(item.product!, value as int);
-                          },
-                          minVal: 1,
-                          maxVal: 100,
-                          initVal: item.quantity!.toInt(),
-                          showMessageLimit: false,
+                            title: Text("${item.product?.title}"),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("${Formatter.formatPrice(item.product!.price!)} x "
+                                    "${item.quantity} = ${Formatter.formatPrice(item.product!.price!
+                                    * item.quantity!)}"),
+
+                                TextButton(
+                                  onPressed: () {
+                                    BlocProvider.of<CartCubit>(context).
+                                    removeFromCart(item.product!);
+                                  },
+                                  child: Text("Delete"),
+                                ),
+                              ],
+                            ),
+                            trailing: InputQty(
+                              onQtyChanged: (value){
+                                BlocProvider.of<CartCubit>(context).
+                                addToCart(item.product!, value as int);
+                              },
+                              minVal: 1,
+                              maxVal: 100,
+                              initVal: item.quantity!.toInt(),
+                              showMessageLimit: false,
+                            ),
+                          ),
                         ),
                       );
                     },
@@ -86,24 +102,25 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
                     children: [
 
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
 
-                            Text("${state.items.length} items", style: TextStyles.body1.copyWith(fontWeight: FontWeight.bold),),
-                            Text("Total: ${Formatter.formatPrice(Calculations.cartTotal(state.items))}", style: TextStyles.heading3,),
+                            // Text("${state.items.length} items", style: TextStyles.body1.copyWith(fontWeight: FontWeight.bold),),
+                            Text("Total:", style: TextStyles.heading3,),
+                            Text(" ${Formatter.formatPrice(Calculations.cartTotal(state.items))}", style: TextStyles.heading3,),
 
                           ],
                         ),
                       ),
 
                       SizedBox(
-                        width: MediaQuery.of(context).size.width / 2.5,
+                        width: MediaQuery.of(context).size.width / 2,
                         child: CupertinoButton(
                           onPressed: () {
                             Navigator.pushNamed(context, OrderScreen.routeName);

@@ -47,21 +47,21 @@ class OrderCubit extends Cubit<OrderState> {
     }
   }
 
-  Future<bool> createOrder({
+  Future<OrderModel?> createOrder({
     required List<CartItemModel> items,
     required String paymentMethod
   }) async {
     emit( OrderLoadingState(state.orders) );
     try {
       if(_userCubit.state is! UserLoggedInState) {
-        return false;
+        return null;
       }
 
       OrderModel newOrder = OrderModel(
           items: items,
           totalAmount: Calculations.cartTotal(items),
           user: (_userCubit.state as UserLoggedInState).userModel,
-          status: (paymentMethod == "pay-on-delivery") ? "payment-pending" : "order-placed"
+          status: (paymentMethod == "pay-on-delivery") ? "order-placed" : "payment-pending"
       );
       final order = await _orderRepository.createOrder(newOrder);
 
@@ -72,11 +72,11 @@ class OrderCubit extends Cubit<OrderState> {
       // Clear the cart
       _cartCubit.clearCart();
 
-      return true;
+      return order;
     }
     catch(ex) {
       emit( OrderErrorState(ex.toString(), state.orders) );
-      return false;
+      return null;
     }
   }
   

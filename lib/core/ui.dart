@@ -59,7 +59,6 @@ class TextStyles {
   );
 
   static TextStyle body2 = TextStyle(
-      fontWeight: FontWeight.normal,
       color: AppColors.text,
       fontSize: 16
   );

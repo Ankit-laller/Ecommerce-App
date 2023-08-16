@@ -43,50 +43,158 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Text("An error occured!"),
           );
 
-
         }
     );
   }
   Widget userProfile(UserModel userModel) {
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 45),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
 
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("${userModel.username}", style: TextStyles.heading3),
-            Text("${userModel.email}", style: TextStyles.body2,),
-            LinkButton(
-              onPressed: () {
-                Navigator.pushNamed(context, EditProfileScreen.routeName);
-              },
-              text: "Edit Profile",
+          Center(
+            child: Text(
+              'My profile',
+              textAlign: TextAlign.start,
+              style: TextStyles.heading3,
             ),
-          ],
+          ),
+
+          Card(
+            elevation: 1,
+            margin: const EdgeInsets.only(bottom: 10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+
+            ),
+            child: Padding(
+              padding:
+              const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    const SizedBox(height: 12),
+                    Stack(
+                      // overflow: Overflow.visible,
+
+                      alignment: AlignmentDirectional.topCenter,
+                      fit: StackFit.loose,
+                      children: <Widget>[
+                        Container(
+                          height: 60,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+
+                        ),
+                        const Positioned(
+                          top: 0,
+                          child: CircleAvatar(
+                            radius: 40,
+                            backgroundImage:
+                            AssetImage('assets/images/user_icon.png',),
+                          ),
+                        )
+                      ],
+                    ),
+                     Padding(
+                       padding: const EdgeInsets.only(top:8.0),
+                       child: Text(
+                        "${userModel.username}",
+                        style:const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                     ),
+                    const SizedBox(height: 12),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Icon(Icons.location_on_outlined),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children:  <Widget>[
+                              Text('${userModel.address}',style: TextStyles.body2.copyWith(fontWeight: FontWeight.w400),),
+                              Text('${userModel.city}',style: TextStyles.body2.copyWith(fontWeight: FontWeight.w400),),
+                              Text('${userModel.state}',style: TextStyles.body2.copyWith(fontWeight: FontWeight.w400),),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ]),
+            ),
+          ),
+
+          const Divider(),
+
+          ProfileOption(text: "Edit Profile",
+          onClick: (){
+            Navigator.pushNamed(context, EditProfileScreen.routeName);
+          },),
+          ProfileOption(text: "My Orders",
+          onClick: (){
+            Navigator.pushNamed(context, MyOrderScreen.routeName);
+          },),
+          ProfileOption(text: "Sign Out",
+          onClick: (){
+            BlocProvider.of<UserCubit>(context).signOut();
+          },)
+
+
+    ])
+      );
+
+  }
+
+
+}
+
+
+class ProfileOption extends StatelessWidget {
+  final VoidCallback? onClick;
+  final String text;
+  ProfileOption({
+    Key? key,
+    this.onClick,
+    this.text = '',
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 13),
+      child: Material(
+        elevation: 1,
+        child: ListTile(
+          // contentPadding: EdgeInsets.all(10),
+          title: Text(
+            text,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 18,
+            ),
+          ),
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          onTap: onClick,
+          trailing: const Icon(
+            Icons.arrow_forward_ios_rounded,
+            color: Colors.black,
+          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+          tileColor: Colors.white,
         ),
-
-        const Divider(),
-
-        ListTile(
-            onTap: () {
-              Navigator.pushNamed(context, MyOrderScreen.routeName);
-            },
-            contentPadding: EdgeInsets.zero,
-            leading: const Icon(CupertinoIcons.cube_box_fill),
-            title: Text("My Orders", style: TextStyles.body1,)
-        ),
-
-        ListTile(
-            onTap: () {
-              BlocProvider.of<UserCubit>(context).signOut();
-            },
-            contentPadding: EdgeInsets.zero,
-            leading: const Icon(Icons.exit_to_app, color: Colors.red,),
-            title: Text("Sign Out", style: TextStyles.body1.copyWith(color: Colors.red))
-        ),
-
-      ],
+      ),
     );
   }
 }

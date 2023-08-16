@@ -2,6 +2,7 @@ import 'package:ecommerceapp/cubit/cart/cart_cubit.dart';
 import 'package:ecommerceapp/cubit/user_cubit.dart';
 import 'package:ecommerceapp/cubit/user_state.dart';
 import 'package:ecommerceapp/screens/provider/order-provider.dart';
+import 'package:ecommerceapp/service/razorpay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../core/ui.dart';
 import '../cubit/cart/cart_state.dart';
 import '../cubit/order/order-cubit.dart';
+import '../data/models/order-model.dart';
 import '../data/models/user_model.dart';
 import '../widget/cart-list-items.dart';
 import '../widget/linkButton.dart';
@@ -119,11 +121,23 @@ class _OrderScreenState extends State<OrderScreen> {
           const GapWidget(),
           PrimaryButton(
             onPressed: ()async{
-              bool success = await BlocProvider.of<OrderCubit>(context).createOrder(
+              OrderModel? newOrder = await BlocProvider.of<OrderCubit>(context).createOrder(
                 items: BlocProvider.of<CartCubit>(context).state.items,
                 paymentMethod: Provider.of<OrderDetailProvider>(context, listen: false).paymentMethod.toString(),
               );
-              if(success){
+              if(newOrder==null){
+                return ;
+              }
+              if(newOrder.status =="payment-pending"){
+               await RazorPayServices.checkoutOrder(
+                    newOrder, onSuccess:(response){
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.pushNamed(context, OrderPlacedScreen.routeName);
+                }, onFailure: (response){
+                      showSnackBar("order failed", context);
+              });
+              }
+              if(newOrder.status=="order-placed"){
                 Navigator.popUntil(context, (route) => route.isFirst);
                 Navigator.pushNamed(context, OrderPlacedScreen.routeName);
               }

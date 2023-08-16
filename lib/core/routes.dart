@@ -13,6 +13,7 @@ import 'package:ecommerceapp/screens/provider/order-provider.dart';
 import 'package:ecommerceapp/screens/provider/signUp_provider.dart';
 import 'package:ecommerceapp/screens/signUpPage.dart';
 import 'package:ecommerceapp/screens/splash_screen.dart';
+import 'package:ecommerceapp/screens/test-file.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -63,6 +64,9 @@ class Routes{
 
       case MyOrderScreen.routeName :return CupertinoModalPopupRoute(
           builder: (context)=> MyOrderScreen());
+
+      case Test.routeName :return CupertinoModalPopupRoute(
+          builder: (context)=> Test());
       default :return null;
     }
 
